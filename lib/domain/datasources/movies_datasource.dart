@@ -4,7 +4,7 @@
 //independientemente del origen de datos que utilizemos
 import 'package:cinemapedia/domain/entities/movie.dart';
 
-abstract class MovieDataSource{
+abstract class MoviesDataSource{
 
   //metodo abstracto sin ser implementado que traera las peliculas que estan actualmente en cartelera
   //por defecto devuelve 1 como el numero de pagina ya que la aplicacion sera paginada

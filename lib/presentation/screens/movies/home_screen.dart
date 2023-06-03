@@ -13,9 +13,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: Text( Enviroment.theMovieDbKey), //usamos la clase creada en config/constant donde tenemos constantes que contienen el acceso a las variables de entorno
+        child:  Placeholder(), //usamos la clase creada en config/constant donde tenemos constantes que contienen el acceso a las variables de entorno
       ),
     );
   }

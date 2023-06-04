@@ -1,6 +1,6 @@
 
 //hemos creado estas clases con la web --> https://app.quicktype.io/
-//para pasar del JSON recibido de la API TEH MOVIEDB a una clase de Dart
+//para pasar del JSON recibido de la API THE MOVIEDB a una clase de Dart
 //modificamos lo recibido usando --> https://app.quicktype.io/ a la que necesitemos
 //hemos cambiado el nombre the result original de la Api por MovieMoviedb
 

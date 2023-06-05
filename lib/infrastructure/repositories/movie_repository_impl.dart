@@ -8,8 +8,8 @@ import 'package:cinemapedia/domain/repositories/movies_repository.dart';
 //hereda de MoviesRepository creado en cinemapedia/domain/repositories/
 class MovieRepositoryImpl extends MoviesRepository {
 
-  //propiedades
-  final MoviesDataSource datasource;
+  //propiedades 
+  final MoviesDataSource datasource; //objeto MoviesDataSource el padre
 
   //constructor
   MovieRepositoryImpl(this.datasource); //creamos una propiedad de tipo MoviesDataSoruce

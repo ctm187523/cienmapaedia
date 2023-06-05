@@ -25,7 +25,7 @@ class MovieDbResponse {
     //se crea el metodo MovieDbResponse.fromJson automaticamente usando --> https://app.quicktype.io/
     //para crear una instancia de esta clase MovieDbResponse y pasarle los valores a los argumentos traidos del Json
     factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(
-        dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
+        dates: json["dates"] != null ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
         results: List<MovieMovieDb>.from(json["results"].map((x) => MovieMovieDb.fromJson(x))),
         totalPages: json["total_pages"],

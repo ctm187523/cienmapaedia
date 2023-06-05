@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cinemapedia/config/router/app_router.dart';
 import 'package:cinemapedia/config/theme/app_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //para usar las variables de entorno ponemos el siguiente codigo en el main -> Future<void> y el async
 Future<void> main() async{
@@ -15,7 +16,9 @@ Future<void> main() async{
   //inicializamos el paquete dotenv importado arriba para que lea las variables de entorno de manera global
   await dotenv.load(fileName: '.env');
   
-  runApp(const MainApp());
+  //envolvemos la clase Main en el ProviderScope de Riverpod para obtener el estado de forma global
+  runApp(
+    const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {

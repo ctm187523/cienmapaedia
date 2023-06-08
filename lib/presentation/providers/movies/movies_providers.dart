@@ -21,7 +21,9 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movi
 });
 
 //typedef son funciones definidas por mi, la usamos para cargar las siguientes peliculas
-//usado en la clase MoviesNotifier creada abajo
+//usado en la clase MoviesNotifier creada abajo, definimos el tipo de funcion que esperamos recibir
+//que sera la funcion de MovieRepositoryImpl --> Future<List<Movie>> getNowPlaying({int page = 1})
+//ya que en la clase movieRepositoryProvider nos provee de esa clase MovieRepositoryImp con su funcion correspondiente
 typedef MovieCallback = Future<List<Movie>> Function({ int page });
 
 //clase que proporciona el listado de peliculas que estaran en el cine
@@ -30,7 +32,9 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   //propiedades
   int currentPage = 0; //pagina actual
-  MovieCallback fetchMoreMovies; //llamamos a la funcion creada arriba typedef
+  //llamamos a la funcion creada arriba(typedef) MovieCallBack que nos define el tipo de funcion que
+  //vamos a recibir por parametros del metodo de arriba nowPlayingMoviesProvider que a su vez la recibe de movieRepositoryProvider
+  MovieCallback fetchMoreMovies; 
   
   //constructor
   MoviesNotifier({

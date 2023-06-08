@@ -1,5 +1,5 @@
 
-//clase para leer los diferentes modelos de datasourcerecibido y crear la entidad
+//clase para leer los diferentes modelos de datasource recibido y crear la entidad
 //de la clase Movie para que sea independeinte de la fuente de datos que usemos
 
 import '../../domain/entities/movie.dart';
@@ -7,7 +7,7 @@ import '../models/moviedb/movie_moviedb.dart';
 
 class MovieMapper {
   //creamos un metodo estatico de tipo Movie que es la entidad de domain/entities, 
-  //recibe un argumento de tipo MovieMovieDb de models/moviedb
+  //recibe un argumento de tipo MovieMovieDb de models/moviedb y devuelve un objeto de tipo Movie(entidad)
   static Movie movieDBToEntity(MovieMovieDb moviedb) => Movie(
       adult: moviedb.adult,
       //si el backdropPath(la imagen) no viene vacia la mostramos si no viene

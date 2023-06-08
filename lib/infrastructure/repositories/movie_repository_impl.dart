@@ -9,7 +9,9 @@ import 'package:cinemapedia/domain/repositories/movies_repository.dart';
 class MovieRepositoryImpl extends MoviesRepository {
 
   //propiedades 
-  final MoviesDataSource datasource; //objeto MoviesDataSource el padre
+  //objeto MoviesDataSource el padre, le pasamos el padre porque de esta manera podemos pasarle diferentes datasources 
+  //en caso de que cambiemos la fuente de datos ya que todas las fuentes de datos(datasources) heredan de MoviesDataSource
+  final MoviesDataSource datasource; 
 
   //constructor
   MovieRepositoryImpl(this.datasource); //creamos una propiedad de tipo MoviesDataSoruce

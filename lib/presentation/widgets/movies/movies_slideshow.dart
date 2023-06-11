@@ -25,7 +25,7 @@ class MoviesSlideshow extends StatelessWidget {
 
     return SizedBox(
       height: 210,
-      width: double.infinity,
+      width: double.infinity, //coje todo el ancho posible
       child: Swiper( //usamos para el carrusel el paquete instalada card/swipper(ver arriba)
         viewportFraction: 0.8, //propiedad para ver el slide anterior y el que sigue
         scale: 0.9, //lo escalamos mas pequeño

@@ -43,6 +43,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider 
+    //para al iniciar la aplicacion se carguen las peliculas
     ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
   }
   @override
@@ -70,7 +71,14 @@ class _HomeViewState extends ConsumerState<_HomeView> {
           movies: nowPlayingMovies,
           title: 'En cines',
           subTitle: 'Lunes 20' ,
-        )
+          loadNextPage: () { 
+            //Usamos el read, lo usamos si estamos entro de un callback o funciones
+             //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+             //nuevas peliculas de otra pagina
+            ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+          },
+        ),
+        
       ],
     );
   }

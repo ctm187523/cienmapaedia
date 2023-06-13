@@ -24,12 +24,17 @@ class MoviedbDatasource extends MoviesDataSource {
       'api_key':Enviroment.theMovieDbKey,
       'languaje': 'es-ES'
     }
-  ));
+    )
+  );
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async{
    
    //ponemos con get el path para recibir las peliculas
-   final response = await dio.get('/movie/now_playing');
+   final response = await dio.get('/movie/now_playing', 
+    queryParameters: {
+      'page': page //mandamos el numero de pagina que queremos ver
+    }
+   );
 
   //creamos una variable donde almacenamos la respuesta  a la url, pero antes procesamos la respuesta
   //usando la clase MovieDbResponse de infrastructure/models/moviedb/ donde transformamos el JSON recibido

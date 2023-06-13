@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 import '../../../domain/entities/movie.dart';
 
-class MovieHorizontalListView extends StatelessWidget {
+//heredamos de StatefulWidget para poder usar estados, usamos un listener para cargar
+//las siguientes paginas de movies
+class MovieHorizontalListView extends StatefulWidget {
 
   final List<Movie> movies;
   final String? title;
@@ -13,6 +15,9 @@ class MovieHorizontalListView extends StatelessWidget {
   //propiedad para cuando se llega al final cargar las siguientes peliculas 
   //de tipo VoidCallback, hacer el infiniteScroll, es opcional no tiene porque
   //cargar mas peliculas al final
+  //La utilidad principal de VoidCallback es permitir que una función o un bloque 
+  //de código se pase como argumento a otro widget o componente Flutter. Al hacerlo,
+  // se puede invocar esa función o bloque de código en respuesta a un evento específico.
   final VoidCallback? loadNextPage; 
 
   //constructor
@@ -25,15 +30,52 @@ class MovieHorizontalListView extends StatelessWidget {
     });
 
   @override
+  State<MovieHorizontalListView> createState() => _MovieHorizontalListViewState();
+}
+
+class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
+
+  final scrollController = ScrollController(); //creamos un objeto de tipo ScrollController, para poner pausa, saber en que punto estamos,etc
+
+  //usamos el estado inicial
+  @override
+  void initState() {
+
+    super.initState();
+    //agregamos un listener para cada uno de los listview que creamos
+    scrollController.addListener(() { 
+
+      if ( widget.loadNextPage == null ) return; //si no viene el loadNextPage ya que es opcional salimos
+
+      //si tenemos un callback(loadNextPage) lo llamamos si llega a la posicion maxima con un margen de 200 pixeles
+      if (scrollController.position.pixels + 200 > scrollController.position.maxScrollExtent){
+
+        widget.loadNextPage!(); //llamamos a la proxima pagina para que cargue las siguientes peliculas, ponemos el signo ! para indicar que no sera null, ya que previamente lo comprobamos
+      }
+    });
+  }
+
+  //usamos el dispose para hacer la limpieza de los listview que ya no usamos al ser destruido
+  //cuando usamos el listener debemos usar el dispose
+
+@override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
+    
     return SizedBox(
       height: 350,
       child: Column(
         children: [
 
-          //ponemos una condicion de que se muestre si no es nulo
-          if( title != null || subTitle != null)
-            _Title( title: title, subTitle: subTitle), //llamamos al widget creado abajo
+          //ponemos una condicion de que se muestre si no es nulo, ponemos
+          //widget.title y widget.subtitle porque heredamos de StatefulWidget y estamos
+          //dentro del state
+          if( widget.title != null || widget.subTitle != null)
+            _Title( title: widget.title, subTitle: widget.subTitle), //llamamos al widget creado abajo
 
             //usamos un ListView.builder(ya que las peliculas que vamos a recibir no estan definidas), es la diferencia
             //entre usar ListView o un ListView.builder, el builder lo crea de manera perezosa 
@@ -42,11 +84,12 @@ class MovieHorizontalListView extends StatelessWidget {
             //usamos el Widget Expanded para que el ListView tenga un tamaño específico
             Expanded(
               child: ListView.builder(
-                itemCount: movies.length,
+                controller: scrollController, //asociamos el scrollControler que es listener al ListView
+                itemCount: widget.movies.length,
                 scrollDirection: Axis.horizontal, //ponemos que sera horizontal el scroll
                 physics: const BouncingScrollPhysics(), //fisicas similares para Android y Ios
                 itemBuilder: (context, index){
-                  return _Slide(movie: movies[index]); //usamos la clase creada abajo
+                  return _Slide(movie: widget.movies[index]); //usamos la clase creada abajo
                 }
               )
             )

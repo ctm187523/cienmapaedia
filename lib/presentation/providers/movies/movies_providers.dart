@@ -32,6 +32,7 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   //propiedades
   int currentPage = 0; //pagina actual
+  bool isLoading = false; //booleano para comprobar si estan cargando peliculas y de esta manera no se hagan llamadas simultaneas
   //llamamos a la funcion creada arriba(typedef) MovieCallBack que nos define el tipo de funcion que
   //vamos a recibir por parametros del metodo de arriba nowPlayingMoviesProvider que a su vez la recibe de movieRepositoryProvider
   MovieCallback fetchMoreMovies; 
@@ -43,12 +44,18 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   //metodo para modificar el state, el listado de Movie
   Future<void> loadNextPage() async {
+    if( isLoading) return; 
+
+    isLoading = true; //lo ponemos en true para indicar que se estan cargando peliculas y no haga llamadas
+
     currentPage++; //aumentamos en 1 la pagina actual
 
     final List<Movie> movies = await fetchMoreMovies( page : currentPage);
     //regresamos un nuevo estado y un nuevo estado con las movies que vienen de la peticion de arriba
     //cuando el estado cambia notifica
     state = [...state, ...movies]; 
+    await Future.delayed(const Duration(microseconds: 3000)); //  le damos un tiempo antes de cambiar la varialbe de abajo es opcional
+    isLoading = false; //una vez actualizado el estado lo ponemos en false para que se puedan cargar mas peliculas de otras paginas
   }
 
 }

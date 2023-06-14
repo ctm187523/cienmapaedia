@@ -19,8 +19,15 @@ class MovieRepositoryImpl extends MoviesRepository {
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) {
 
-    //usamos la propiedad datasource creada arriba
+    //usamos la propiedad datasource creada arriba y el metodo correspondiente
     return datasource.getNowPlaying(page : page);
+  }
+  
+  @override
+  Future<List<Movie>> getPopular({int page = 1}) {
+   
+   //usamos la propiedad datasource creada arriba y el metodo correspondiente
+   return datasource.getPopular(page: page);
   }
 
 }

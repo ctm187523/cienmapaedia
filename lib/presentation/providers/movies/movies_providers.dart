@@ -12,13 +12,34 @@ final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movi
 
   //creamos una referencia al repositorio creado en providers/movies/movies_repository_provider
   //para obtener su metodo getNowPlaying de la clase MoviedbDatasource donde hacemos la peticion
-  //a la API 
+  //a la API no lo llamamos pasamos la referencia a la funcion no usamos los parentesis como en
+  //la clase home_screen para llamar a la funcion cuando hacemos la peticion al provider
   final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getNowPlaying;
+
+  return MoviesNotifier( 
+    fetchMoreMovies: fetchMoreMovies
+  ); //devolvemos una instancia de la clase creada abajo
+});
+
+//provider que nos informara de las peliculas mas populares, es el mismo codigo de arriba
+//excepto que en el la variable fecthMoreMovies llamamamos al metodo getPopular, llamamos
+//de igual manera a la clase  MoviesNotifier creada abajo
+//usamos StateNotifierProvider que es un proveedor de un estado que notifica su cambio
+//como parametros genericos tenemos primeramente la clase que lo controla creada abajo
+// y el listado de objetos Movie(entidad) que es el state(la data)
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref)  {
+
+  //creamos una referencia al repositorio creado en providers/movies/movies_repository_provider
+  //para obtener su metodo getPopular de la clase MoviedbDatasource donde hacemos la peticion
+  //a la API, no lo llamamos pasamos la referencia a la funcion no usamos los parentesis como en
+  //la clase home_screen para llamar a la funcion cuando hacemos la peticion al provider
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getPopular;
 
   return MoviesNotifier(
     fetchMoreMovies: fetchMoreMovies
   ); //devolvemos una instancia de la clase creada abajo
 });
+
 
 //typedef son funciones definidas por mi, la usamos para cargar las siguientes peliculas
 //usado en la clase MoviesNotifier creada abajo, definimos el tipo de funcion que esperamos recibir

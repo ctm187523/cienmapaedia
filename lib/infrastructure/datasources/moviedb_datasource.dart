@@ -26,20 +26,17 @@ class MoviedbDatasource extends MoviesDataSource {
     }
     )
   );
-  @override
-  Future<List<Movie>> getNowPlaying({int page = 1}) async{
-   
-   //ponemos con get el path para recibir las peliculas
-   final response = await dio.get('/movie/now_playing', 
-    queryParameters: {
-      'page': page //mandamos el numero de pagina que queremos ver
-    }
-   );
+
+
+  //creamos un metodo para  generico para usarlo en las peticiones que creamos abajo,
+  //este metodo transforma la respuesta recibida de la peticion de tipo JSON a un objeto Movies
+  //retorna un listado de las movies recibidas en la respuesta JSON
+  List<Movie> _jsonToMovies ( Map<String, dynamic> json ){
 
   //creamos una variable donde almacenamos la respuesta  a la url, pero antes procesamos la respuesta
   //usando la clase MovieDbResponse de infrastructure/models/moviedb/ donde transformamos el JSON recibido
   // a una instancia de la clase MovieDbResponse
-   final movieDBResponse = MovieDbResponse.fromJson(response.data);
+   final movieDBResponse = MovieDbResponse.fromJson(json);
 
    //creamos un List de tipo de la entidad Movie de entities/movie, le pasamos la respuesta de arriba
    //transformada a un objeto MovieDbResponse, necesitamos obtener un objeto Movie(la entidad),
@@ -53,6 +50,40 @@ class MoviedbDatasource extends MoviesDataSource {
     ).toList();
    
    return movies;
+  }
+
+
+  //metodo para obtener el listado completo de peliculas
+  @override
+  Future<List<Movie>> getNowPlaying({int page = 1}) async{
+   
+   //ponemos con get el path para recibir las peliculas
+   final response = await dio.get('/movie/now_playing', 
+    queryParameters: {
+      'page': page //mandamos el numero de pagina que queremos ver
+    }
+   );
+   
+   //usamos el metodo crear arriba para obtener de la respuesta JSON un listado de peliculas
+   //de tipo Movie
+   return _jsonToMovies(response.data);
+  }
+  
+  //metodo para obtener las peliculas populares
+  @override
+  Future<List<Movie>> getPopular({int page = 1}) async{
+
+    //ponemos con get el path para recibir las peliculas mas populares
+   final response = await dio.get('/movie/popular', 
+    queryParameters: {
+      'page': page //mandamos el numero de pagina que queremos ver
+    }
+   );
+
+  //usamos el metodo crear arriba para obtener de la respuesta JSON un listado de peliculas
+   //de tipo Movie
+   return _jsonToMovies(response.data);
+    
   }
 
 }

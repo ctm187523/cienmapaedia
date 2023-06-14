@@ -10,5 +10,8 @@ abstract class MoviesDataSource{
   //por defecto devuelve 1 como el numero de pagina ya que la aplicacion sera paginada
   //devuelve un Future de tipo List y el List de tipo de la entidad Movie creada en entities
   Future<List<Movie>> getNowPlaying({ int page = 1});
+
+  //metodo para obtener las peliculas mas populares
+  Future<List<Movie>> getPopular({ int page = 1});
   
 }

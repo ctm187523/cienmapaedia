@@ -45,6 +45,9 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider 
     //para al iniciar la aplicacion se carguen las peliculas
     ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
+
+    //llamams al provider para obtener las peliculas populares
+     ref.read( popularMoviesProvider.notifier ).loadNextPage();
   }
   @override
   Widget build(BuildContext context) {
@@ -54,31 +57,182 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     //como usamos ref.watch obtenemos el valor del estado 
     final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
 
-    final slideShowMovies = ref.watch(moviesSlideshowProvider); //usamos el provider que retorna las 6 primeras peliculas para el slideShow(carrusel)
-    
-    return Column(
-      children: [
-        //usamos el widget CustomAppBar creado por mi en widgets/shared
-        const CustomAppbar(),
+    //usamos el provider que retorna las 6 primeras peliculas para el slideShow(carrusel)
+    final slideShowMovies = ref.watch(moviesSlideshowProvider);
 
-        //usamos la clase creada en widgets/movies para crear un carrusel,
-        //le pasamos las peliculas obtenidas arriba con el provider moviesSlideshowProvider
-        MoviesSlideshow(movies: slideShowMovies),
-        
-        //usamos el widget creado en presentation/widgets/movies, para mostrar las peliculas
-        //le pasamos la variable que contiene el provider nowPlayingMoviesProvider creado arriba
-        MovieHorizontalListView(
-          movies: nowPlayingMovies,
-          title: 'En cines',
-          subTitle: 'Lunes 20' ,
-          loadNextPage: () { 
-            //Usamos el read, lo usamos si estamos entro de un callback o funciones
-             //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
-             //nuevas peliculas de otra pagina
-            ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-          },
+    //obtenemos las peliculas mas populares
+    final popularMovies = ref.watch( popularMoviesProvider );
+    
+    //usamos SingleChildScrollView para en este caso usar varios scrolls horizontales
+    //usando la clase creada MoviesSlideshow en presentation/widgets/movies y que no se desborde
+    //si usaramos Column con el segundo scroll horizontal ya se desbordaria
+    //COMENTAMOS LO DE ABAJO Y LO HAREMOS CON CustomScrollView PARA QUE AL HACER SCROLL HACIA ABAJO 
+    //EL MENU DONDE ESTA EL TITULO DE LA APLICACION Y EL BUSCADOR APARECIERAN TAN PRONTO
+    //EMPIEZO A HACER SCROLL HACIA ABAJO
+
+    // return SingleChildScrollView(
+    //   child: Column(
+    //     children: [
+    //       //usamos el widget CustomAppBar creado por mi en widgets/shared
+    //       const CustomAppbar(),
+    
+    //       //usamos la clase creada en presentation/widgets/movies para crear un carrusel,
+    //       //le pasamos las peliculas obtenidas arriba con el provider moviesSlideshowProvider
+    //       MoviesSlideshow(movies: slideShowMovies),
+          
+    //       //usamos el widget creado en presentation/widgets/movies, para mostrar las peliculas
+    //       //le pasamos la variable que contiene el provider nowPlayingMoviesProvider creado arriba
+    //       MovieHorizontalListView(
+    //         movies: nowPlayingMovies,
+    //         title: 'En cines',
+    //         subTitle: 'Lunes 20' ,
+    //         loadNextPage: () { 
+    //           //Usamos el read, lo usamos si estamos entro de un callback o funciones
+    //            //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+    //            //nuevas peliculas de otra pagina
+    //           ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    //         },
+    //       ),
+    //       //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
+    //       //en presentation/widgets/movies
+    //        MovieHorizontalListView(
+    //         movies: nowPlayingMovies,
+    //         title: 'Próximamente',
+    //         subTitle: 'En este mes',
+    //         loadNextPage: () { 
+    //           //Usamos el read, lo usamos si estamos entro de un callback o funciones
+    //            //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+    //            //nuevas peliculas de otra pagina
+    //           ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    //         },
+    //       ),
+    //       //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
+    //       //en presentation/widgets/movies
+    //        MovieHorizontalListView(
+    //         movies: nowPlayingMovies,
+    //         title: 'Populares',
+    //         //subTitle: 'Lunes 20' ,
+    //         loadNextPage: () { 
+    //           //Usamos el read, lo usamos si estamos entro de un callback o funciones
+    //            //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+    //            //nuevas peliculas de otra pagina
+    //           ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    //         },
+    //       ),
+    //       //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
+    //       //en presentation/widgets/movies
+    //        MovieHorizontalListView(
+    //         movies: nowPlayingMovies,
+    //         title: 'Mejor calificadas',
+    //         subTitle: 'Desde siempre' ,
+    //         loadNextPage: () { 
+    //           //Usamos el read, lo usamos si estamos entro de un callback o funciones
+    //            //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+    //            //nuevas peliculas de otra pagina
+    //           ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    //         },
+    //       ),
+          
+    //       const SizedBox( height: 10),
+    //     ],
+    //   ),
+    // );
+
+
+    //usamos CustomScrollView en lugar de SingleChildScrollView PARA QUE AL HACER SCROLL HACIA ABAJO 
+    //EL MENU DONDE ESTA EL TITULO DE LA APLICACION Y EL BUSCADOR APARECIERAN TAN PRONTO
+    //EMPIEZO A HACER SCROLL HACIA ABAJO
+
+    return CustomScrollView(
+      //los slivers son widgets que trabajan directamente con el ScrollView
+      slivers: [
+
+        //cambiamos el appbar respecto el codigo comentado(CustomAppbar creado por mi en widgets/shared)arriba es una appbar tradicional
+        //pero funciona directamente con el scroll
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(), //usamos el CustomAppbar creado creado por mi en widgets/shared
+          ),
+
         ),
-        
+        //usamos el widget SliverList, que es como un ListView 
+        SliverList(delegate: SliverChildBuilderDelegate(  //los delegate son las funciones para crear los widgets dentro de la lista
+            (context, index) {
+              //colocamos gran parte del codigo de arriba comentado,cambiamos el appbar
+              return Column(
+                children: [
+                 
+                 //usamos el widget CustomAppBar creado por mi en widgets/shared
+                 //lo comentamos ya que aqui no lo usamos de la misma manera que el codigo comentado arriba
+                 //en su lugar usamos el creado arriba de tipo SliverAppBar para que funcione directamente con el scroll
+                 //const CustomAppbar(),
+            
+                  //usamos la clase creada en presentation/widgets/movies para crear un carrusel,
+                  //le pasamos las peliculas obtenidas arriba con el provider moviesSlideshowProvider
+                  MoviesSlideshow(movies: slideShowMovies),
+                  
+                  //usamos el widget creado en presentation/widgets/movies, para mostrar las peliculas
+                  //le pasamos la variable que contiene el provider nowPlayingMoviesProvider creado arriba
+                  MovieHorizontalListView(
+                    movies: nowPlayingMovies,
+                    title: 'En cines',
+                    subTitle: 'Lunes 20' ,
+                    loadNextPage: () { 
+                      //Usamos el read, lo usamos si estamos entro de un callback o funciones
+                      //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+                      //nuevas peliculas de otra pagina
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+
+                  //creamos otro scroll horizontal usando la clase creada MovieHorizontalListView
+                  //en presentation/widgets/movies
+                  MovieHorizontalListView(
+                    movies: nowPlayingMovies,
+                    title: 'Próximamente',
+                    subTitle: 'En este mes',
+                    loadNextPage: () { 
+                      //Usamos el read, lo usamos si estamos entro de un callback o funciones
+                      //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+                      //nuevas peliculas de otra pagina
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  //creamos otro scroll horizontal usando la clase creada MovieHorizontalListView
+                  //en presentation/widgets/movies, para obtener las peliculas mas populares
+                  MovieHorizontalListView(
+                    movies: popularMovies,
+                    title: 'Populares',
+                    //subTitle: 'Lunes 20' ,
+                    loadNextPage: () { 
+                      //Usamos el read, lo usamos si estamos entro de un callback o funciones
+                      //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+                      //nuevas peliculas de otra pagina
+                      ref.read(popularMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
+                  //en presentation/widgets/movies
+                  MovieHorizontalListView(
+                    movies: nowPlayingMovies,
+                    title: 'Mejor calificadas',
+                    subTitle: 'Desde siempre' ,
+                    loadNextPage: () { 
+                      //Usamos el read, lo usamos si estamos entro de un callback o funciones
+                      //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+                      //nuevas peliculas de otra pagina
+                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                    },
+                  ),
+                  
+                  const SizedBox( height: 10),
+                ],
+              );
+            },
+            childCount: 1
+          )
+        )
       ],
     );
   }

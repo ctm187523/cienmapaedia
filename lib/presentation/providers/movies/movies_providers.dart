@@ -40,6 +40,31 @@ final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>
   ); //devolvemos una instancia de la clase creada abajo
 });
 
+//hacemos una llamada a los providers correspondientes como las anteriores para las peliculas que estaran proximamente
+final upcomingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider).getUpcoming;
+
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies
+  );
+});
+
+
+
+//hacemos una llamada a los providers correspondientes como las anteriores para las peliculas mejor calificadas
+
+  final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+
+    final fetchMoreMovies = ref.watch(movieRepositoryProvider).getTopRated;
+
+    return MoviesNotifier(
+      fetchMoreMovies: fetchMoreMovies
+    );
+  });
+
+
+
 
 //typedef son funciones definidas por mi, la usamos para cargar las siguientes peliculas
 //usado en la clase MoviesNotifier creada abajo, definimos el tipo de funcion que esperamos recibir
@@ -67,7 +92,7 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
   Future<void> loadNextPage() async {
     if( isLoading) return; 
 
-    isLoading = true; //lo ponemos en true para indicar que se estan cargando peliculas y no haga llamadas
+    isLoading = true; //lo ponemos en true para indicar que se estan cargando peliculas y no haga llamadas mientras tanto
 
     currentPage++; //aumentamos en 1 la pagina actual
 

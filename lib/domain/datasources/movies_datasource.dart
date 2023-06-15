@@ -13,5 +13,11 @@ abstract class MoviesDataSource{
 
   //metodo para obtener las peliculas mas populares
   Future<List<Movie>> getPopular({ int page = 1});
+
+  //metodo para obtener las peliculas que estaran proximamente
+  Future<List<Movie>> getUpcoming({ int page = 1});
+
+  //metodo para obtener las peliculas mejor calificadas
+  Future<List<Movie>> getTopRated({ int page = 1});
   
 }

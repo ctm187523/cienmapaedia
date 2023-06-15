@@ -52,7 +52,8 @@ class MoviedbDatasource extends MoviesDataSource {
    return movies;
   }
 
-
+  //LAS LLAMADAS A LA API LAS OBTENEMOS DE https://developer.themoviedb.org/reference/movie-now-playing-list
+  //EN EL APARTADO MOVIE LISTS
   //metodo para obtener el listado completo de peliculas
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async{
@@ -84,6 +85,38 @@ class MoviedbDatasource extends MoviesDataSource {
    //de tipo Movie
    return _jsonToMovies(response.data);
     
+  }
+  
+  //hacemos una llamada para las peliculas que estaran proximamente
+  @override
+  Future<List<Movie>> getTopRated({int page = 1}) async{
+    
+   //ponemos con get el path para recibir las peliculas que estaran proximamente
+   final response = await dio.get('/movie/top_rated', 
+    queryParameters: {
+      'page': page //mandamos el numero de pagina que queremos ver
+    }
+   );
+   
+   //usamos el metodo crear arriba para obtener de la respuesta JSON un listado de peliculas
+   //de tipo Movie
+   return _jsonToMovies(response.data);
+  }
+  
+  //hacemos una llamada para las peliculas mejor calificadas
+  @override
+  Future<List<Movie>> getUpcoming({int page = 1}) async{
+    //ponemos con get el path para recibir las peliculas mejor calificadas
+   final response = await dio.get('/movie/upcoming', 
+    queryParameters: {
+      'page': page //mandamos el numero de pagina que queremos ver
+    }
+   );
+   
+   //usamos el metodo crear arriba para obtener de la respuesta JSON un listado de peliculas
+   //de tipo Movie
+   return _jsonToMovies(response.data);
+
   }
 
 }

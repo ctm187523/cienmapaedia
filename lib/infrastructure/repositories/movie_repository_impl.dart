@@ -16,6 +16,9 @@ class MovieRepositoryImpl extends MoviesRepository {
   //constructor
   MovieRepositoryImpl(this.datasource); //creamos una propiedad de tipo MoviesDataSoruce
   
+  //implementamos los metodos obligatorios que heredan de la clase abstracta
+  //MoviesReositories
+  
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) {
 
@@ -28,6 +31,22 @@ class MovieRepositoryImpl extends MoviesRepository {
    
    //usamos la propiedad datasource creada arriba y el metodo correspondiente
    return datasource.getPopular(page: page);
+  }
+  
+  @override
+  Future<List<Movie>> getTopRated({int page = 1}) {
+    
+    //usamos la propiedad datasource creada arriba y el metodo correspondiente
+   return datasource.getTopRated(page: page);
+
+  }
+  
+  @override
+  Future<List<Movie>> getUpcoming({int page = 1}) {
+    
+    //usamos la propiedad datasource creada arriba y el metodo correspondiente
+    return datasource.getUpcoming(page: page);
+
   }
 
 }

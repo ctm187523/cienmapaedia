@@ -89,7 +89,8 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
                 scrollDirection: Axis.horizontal, //ponemos que sera horizontal el scroll
                 physics: const BouncingScrollPhysics(), //fisicas similares para Android y Ios
                 itemBuilder: (context, index){
-                  return _Slide(movie: widget.movies[index]); //usamos la clase creada abajo
+                  //envolvemos la llamada a la clase _Slide con un efecto FadeInRight de animate_do de Fernando Herrera
+                  return FadeInRight(child: _Slide(movie: widget.movies[index])); //usamos la clase creada abajo
                 }
               )
             )

@@ -1,4 +1,5 @@
 
+import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
 import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
@@ -38,7 +39,7 @@ class _HomeView extends ConsumerStatefulWidget {
 //la clase ponemos que herede de ConsumerSate tenemos acceso al ref(al estado de Riverpod)
 class _HomeViewState extends ConsumerState<_HomeView> {
 
-  //estado inicial
+  //estado inicial cargamos la primera pagina
   @override
   void initState() {
     super.initState();
@@ -46,11 +47,27 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     //para al iniciar la aplicacion se carguen las peliculas
     ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
 
-    //llamams al provider para obtener las peliculas populares
+    //llamamos al provider para obtener las peliculas populares
      ref.read( popularMoviesProvider.notifier ).loadNextPage();
+
+    //llamamos al provider para obtener las peliculas que vendran proximamente
+    ref.read( upcomingMoviesProvider.notifier ).loadNextPage();
+
+    //llamamos al provider para obtener las peliculas mejor calificadas
+    ref.read( topRatedMoviesProvider.notifier).loadNextPage();
   }
   @override
   Widget build(BuildContext context) {
+
+    //llamamos al provider initialLoadingProvaider que devuelve un booleano
+    //para saber si esta cargada la data y si no esta mostrar un loading
+    final intialloading = ref.watch(intialLoadingProvider);
+
+    //si no esta cargada la data usamos el widget creado en presentation/widgets/shared
+    //para mostrar el loading
+    if(intialloading) return const FullScreenLoader();
+
+    //en caso contrario mostramos las peliculas
 
     //llamamos al provider  para obtener el listado de peliculas, si no ponemos el notifier
     //como arriba en el initState nos devuelve la data el listado de peliculas el segundo argumento de nowPlayingMoviesProvider
@@ -62,6 +79,14 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     //obtenemos las peliculas mas populares
     final popularMovies = ref.watch( popularMoviesProvider );
+
+    //obtenemos las peliculas que vendran proximamente
+    final upcomingMovies = ref.watch( upcomingMoviesProvider );
+
+    //obtenemos las peliculas mejor calificadas
+    final topRateMovies = ref.watch( topRatedMoviesProvider );
+
+  
     
     //usamos SingleChildScrollView para en este caso usar varios scrolls horizontales
     //usando la clase creada MoviesSlideshow en presentation/widgets/movies y que no se desborde
@@ -189,14 +214,14 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   //creamos otro scroll horizontal usando la clase creada MovieHorizontalListView
                   //en presentation/widgets/movies
                   MovieHorizontalListView(
-                    movies: nowPlayingMovies,
+                    movies: upcomingMovies,
                     title: 'Próximamente',
                     subTitle: 'En este mes',
                     loadNextPage: () { 
                       //Usamos el read, lo usamos si estamos entro de un callback o funciones
                       //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
                       //nuevas peliculas de otra pagina
-                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                      ref.read(upcomingMoviesProvider.notifier).loadNextPage();
                     },
                   ),
                   //creamos otro scroll horizontal usando la clase creada MovieHorizontalListView
@@ -215,14 +240,14 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
                   //en presentation/widgets/movies
                   MovieHorizontalListView(
-                    movies: nowPlayingMovies,
+                    movies: topRateMovies,
                     title: 'Mejor calificadas',
                     subTitle: 'Desde siempre' ,
                     loadNextPage: () { 
                       //Usamos el read, lo usamos si estamos entro de un callback o funciones
                       //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
                       //nuevas peliculas de otra pagina
-                      ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                     },
                   ),
                   

@@ -2,6 +2,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/entities/movie.dart';
 
@@ -189,7 +190,14 @@ class _Slide extends StatelessWidget {
                       child: Center(child: CircularProgressIndicator( strokeWidth: 2)),
                     );
                  }
-                return FadeIn(child: child); //usamos el efecto FadeIn de animate_do de Fernando Herrera
+                 //usamos GestureDetector y si se presiona sobre la imagen se navega a la pelicula en particular
+                 //dependiendo del id de la pelicula
+                 return GestureDetector(
+                    onTap: () => context.push('/movie/${ movie.id }'), //usamos push para que se pueda volver atras
+                    //usamos el efecto FadeIn de animate_do de Fernando Herrera, mostramos la imagen en el listview horizontal
+                    child: FadeIn(child: child),
+                 );
+    
                 } ,
               ),
             )

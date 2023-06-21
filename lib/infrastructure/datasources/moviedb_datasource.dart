@@ -4,6 +4,7 @@ import 'package:cinemapedia/config/constants/environment.dart';
 import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
+import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
 import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
 
 //instalamos y importamos dio(similar a axios) para hacer llamadas http --> flutter pub add dio
@@ -118,5 +119,26 @@ class MoviedbDatasource extends MoviesDataSource {
    return _jsonToMovies(response.data);
 
   }
+  
+  //implementamos el metodo para traer informacion sobre un pelicula en concreti
+  @override
+  Future<Movie> getMovieById(String id) async{
+    
+    //hacemos una peticion para obtener una película por su id
+    final response = await dio.get('/movie/$id');
+
+    //verificamos si la pelicula existe
+    if ( response.statusCode !=200) throw Exception('Movie with id: $id not found');
+   
+    //mapeamos la respuesta usando la clase creada MovieDetails en infrastructure/models/moviedb
+    final movieDetails = MovieDetails.fromJson(response.data);
+      
+    //mapeamos de nuevo para poder retornar un objeto Movie pasamos de movieDb a la entidad
+    //usamos el metodo movieDBToEntity de la clase MovieMapper creada en infrastructure/mappers
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
+    return movie;
+  }
+   
+  
 
 }

@@ -32,7 +32,7 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   void initState() {
     super.initState();
 
-    //hacemos la peticion http, usamos red ya que esta dentro de un metodo
+    //hacemos la peticion http, usamos read ya que esta dentro de un metodo
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
   }
 
@@ -49,9 +49,183 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
 
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MovieId: ${widget.movieId}'),
-      ),
+    //usamos CustomScrollView para usar el scroll de la descripcion de la pelicula
+
+     body: CustomScrollView(
+      physics: const ClampingScrollPhysics(), 
+      slivers: [
+        _CustomSliverAppBar(movie: movie),
+        SliverList(delegate: SliverChildBuilderDelegate(
+          (context, index) => _MovieDetails(movie: movie),
+          childCount: 1 //solo ponemos un elemento
+        ))
+      ],//evita el efecto rebote de ios
+     ),
+    );
+  }
+}
+
+//creamos una clase para manejar los slivers del CustomScrollView creado arriba
+class _CustomSliverAppBar extends StatelessWidget {
+
+  final Movie movie;
+  
+  
+  //constructor
+  const _CustomSliverAppBar({
+    required this.movie
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    //obtenemos las dimensiones del dispositivo
+    final size = MediaQuery.of( context).size;
+    return SliverAppBar(
+      backgroundColor: Colors.black,
+      //usamos el 70 % de la pantalla con la variable size hemos hallado arriba las medidas del dispositivo
+      expandedHeight: size.height * 0.7, 
+      foregroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        title: Text(
+          movie.title,
+          style: const TextStyle(fontSize: 20),
+          textAlign: TextAlign.start,
+        ),
+        //Stack permite poner widgets encima de otros
+        background: Stack(
+          children: [
+            SizedBox.expand(
+              child: Image.network( //colocamos la imagen
+                movie.posterPath,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            //creamos un gradiente
+            const  SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    //hacemos un gradiente vertical comienza en el centro de arriba y termina en el centro de abajo
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    //ponemos los stops qu empieze en el 70 por ciento y acabe en el 100 por cien
+                    stops: [0.7, 1.0],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black87
+                    ]
+                  )
+                )),
+            ),
+           
+            //creamos otro gradiente para que se vea bien la flecha de la izquierda
+            //para ir hacia atras
+            const  SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    //hacemos un gradiente horizontal para empezar desde la izquierda
+                    begin: Alignment.topLeft,
+                    //ponemos los stops qu empieze en el 0 de la izquierda y finalize en el 30 porciento 
+                    stops: [0.0, 0.3],
+                    colors: [
+                      Colors.black87,
+                      Colors.transparent
+                    ]
+                  )
+                )),
+            )
+          ],
+        ),
+       ),
+    );
+  }
+}
+
+//clase para los detalles de las peliculas
+class _MovieDetails extends StatelessWidget {
+
+  final Movie movie;
+
+  //constructor
+  const _MovieDetails({
+
+    required this.movie
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    //obtenemos las medidas del dispositivo
+    final size = MediaQuery.of(context).size; 
+    final textStyle = Theme.of(context).textTheme;
+
+
+    return Column(
+
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Padding(padding: const EdgeInsets.all(8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //imagen
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                movie.posterPath,
+                width: size.width * 0.3
+              ),
+            ),
+
+            const SizedBox( width: 10 ),
+
+            //Descripcion de la pelicula
+            SizedBox(
+              width: (size.width -40) * 0.7,
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text( movie.title, style:  textStyle.titleLarge),
+                  Text( movie.overview),
+
+                ],
+              ),
+            )
+          ],
+
+        ),
+        
+        ),
+
+        //Generos de la película
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Wrap(
+            children: [
+              ...movie.genreIds.map((gender) => Container(
+                margin: const EdgeInsets.only( right: 10),
+                //especie de botones circulares para contener el texto
+                child: Chip(
+                  label: Text( gender),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                ),
+              ))
+            ],
+          ),
+          
+          ),
+
+
+
+
+        //TODO Mostrar actores listview
+         const SizedBox( height: 100) 
+      ],
     );
   }
 }

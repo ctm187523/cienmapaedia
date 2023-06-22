@@ -9,7 +9,9 @@ import 'movies_repository_provider.dart';
 //creamos el Provider
 final movieInfoProvider = StateNotifierProvider<MovieMapNotifier, Map<String, Movie>>((ref) {
 
-  final movieRepository = ref.watch( movieRepositoryProvider);
+  //usamos el provider movieRepositoryProvider para en la siguiente linea usar el metodo getMovieId
+  //y pasarlo por parametro a la clase creada abajo MovieMapNotifier
+  final movieRepository = ref.watch( movieRepositoryProvider );
 
 
   return MovieMapNotifier(getMovie: movieRepository.getMovieById); //pasamos la referencia sin parentesis getMovieById()

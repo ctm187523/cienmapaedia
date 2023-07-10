@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entities/movie.dart';
 
+//prueba git
+
 //creamos una clase que hereda de SearchDelegate, como parametro ponemos que retorna una Movie es opcional
 // esta clase SearchDelegate la usamos para manejar las busquedas en la aplicacion
 //en este caso la busqueda de peliculas, tenemos que sobreescribir 4 metodos + 1 opcional

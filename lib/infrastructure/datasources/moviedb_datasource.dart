@@ -120,7 +120,7 @@ class MoviedbDatasource extends MoviesDataSource {
 
   }
   
-  //implementamos el metodo para traer informacion sobre un pelicula en concreti
+  //implementamos el metodo para traer informacion sobre un pelicula en concreto
   @override
   Future<Movie> getMovieById(String id) async{
     
@@ -137,6 +137,22 @@ class MoviedbDatasource extends MoviesDataSource {
     //usamos el metodo movieDBToEntity de la clase MovieMapper creada en infrastructure/mappers
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
     return movie;
+  }
+  
+  @override
+  Future<List<Movie>> searchMovies(String query) async{
+    
+     //hacemos una peticion para buscar las coincidencias de la pelicula del buscador
+    final response = await dio.get('/search/movie',
+      queryParameters: {
+        'query' : query
+      }
+    );
+
+   //usamos el metodo crear arriba para obtener de la respuesta JSON un listado de peliculas
+   //de tipo Movie
+   return _jsonToMovies(response.data);
+
   }
    
   

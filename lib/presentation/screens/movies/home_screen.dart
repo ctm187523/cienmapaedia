@@ -1,8 +1,6 @@
 
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:cinemapedia/presentation/providers/movies/movies_providers.dart';
-import 'package:cinemapedia/presentation/providers/movies/movies_slideshow_provider.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -199,6 +197,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   
                   //usamos el widget creado en presentation/widgets/movies, para mostrar las peliculas
                   //le pasamos la variable que contiene el provider nowPlayingMoviesProvider creado arriba
+                  //PARA LA NAVEGACION A UNA PARTICULA EN PARTICULAT VER LINEA 195 DE presentations/widgets/movies/movie_horizontal_listview
                   MovieHorizontalListView(
                     movies: nowPlayingMovies,
                     title: 'En cines',

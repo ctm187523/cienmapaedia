@@ -141,6 +141,8 @@ class MoviedbDatasource extends MoviesDataSource {
   
   @override
   Future<List<Movie>> searchMovies(String query) async{
+
+    if(query.isEmpty) return [];
     
      //hacemos una peticion para buscar las coincidencias de la pelicula del buscador
     final response = await dio.get('/search/movie',

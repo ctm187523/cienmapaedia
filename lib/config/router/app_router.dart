@@ -14,7 +14,7 @@ final appRouter = GoRouter(
       name: HomeScreen.name,
       builder: (context, state) => const HomeScreen(),
       routes: [
-        //hacemos la ruta hija de la ruta principal para que seimpre pueda volver a la ruta principal el usaurio desde la ruta hija
+        //hacemos la ruta hija de la ruta principal para que siempre pueda volver a la ruta principal el usaurio desde la ruta hija
         GoRoute(
           path: 'movie/:id', //tenemos un parametro en la ruta, el id de la pelicula es un String
           name: MovieScreen.name,

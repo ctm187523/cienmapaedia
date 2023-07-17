@@ -5,10 +5,12 @@ import 'package:intl/intl.dart';
 
 class HumanFormats {
 
-  static String number( double number ) {
+  //recibimos por parametro el numero a formatear y el numero de decimales que queremos
+  //por defecto es 0 sin decimales si no viene por parametros el numero de decimales
+  static String number( double number, [ int decimals = 0] ) {
 
     final formattedNumber = NumberFormat.compactCurrency(
-      decimalDigits: 0,
+      decimalDigits: decimals,
       symbol: '',
       locale: 'en'
     ).format(number);

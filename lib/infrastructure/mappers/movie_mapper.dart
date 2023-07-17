@@ -23,10 +23,11 @@ class MovieMapper {
       overview: moviedb.overview,
       popularity: moviedb.popularity,
       //hacemos como arriba con el backdropPath con esta imagen tambien
+      //si no hay imagen cargamos una url con una imagen de no poster
       posterPath: (moviedb.posterPath != '')
       ? 'https://image.tmdb.org/t/p/w500${ moviedb.posterPath }'
-      : 'no-poster',
-      releaseDate: moviedb.releaseDate,
+      : 'https://movienewsletters.net/photos/000000h1.jpg',
+      releaseDate: moviedb.releaseDate != null ? moviedb.releaseDate! : DateTime.now(),
       title: moviedb.title,
       video: moviedb.video,
       voteAverage: moviedb.voteAverage,

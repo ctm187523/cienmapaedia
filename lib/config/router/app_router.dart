@@ -1,5 +1,6 @@
 
 //instalamos go router con --> flutter pub add go_router
+import 'package:cinemapedia/presentation/views/views.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cinemapedia/presentation/screens/screens.dart';
 
@@ -12,7 +13,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: HomeScreen.name,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) => const HomeScreen( childView: HomeView(),),
       routes: [
         //hacemos la ruta hija de la ruta principal para que siempre pueda volver a la ruta principal el usaurio desde la ruta hija
         GoRoute(

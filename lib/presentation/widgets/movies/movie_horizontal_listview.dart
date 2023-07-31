@@ -193,7 +193,7 @@ class _Slide extends StatelessWidget {
                  //usamos GestureDetector y si se presiona sobre la imagen se navega a la pelicula en particular
                  //dependiendo del id de la pelicula
                  return GestureDetector(
-                    onTap: () => context.push('/movie/${ movie.id }'), //usamos push para que se pueda volver atras
+                    onTap: () => context.push('/home/0/movie/${ movie.id }'), //usamos push para que se pueda volver atras
                     //usamos el efecto FadeIn de animate_do de Fernando Herrera, mostramos la imagen en el listview horizontal
                     child: FadeIn(child: child),
                  );

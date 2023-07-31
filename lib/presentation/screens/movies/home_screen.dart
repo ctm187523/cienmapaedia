@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
         children: viewRoutes, //usamos el array creado arriba
       ),
       //usamos el widget creado en widgets/shared
-      bottomNavigationBar: CustomButtomNavigation(),
+      bottomNavigationBar: CustomButtomNavigation( currentIndex: pageIndex),
     );
   }
 }

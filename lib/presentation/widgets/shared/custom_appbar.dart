@@ -63,14 +63,13 @@ class CustomAppbar extends ConsumerWidget {
                     //la pelicula por id creada en presentation/screens/movies/movie_screen
                     //referenciada en GoRoute en config/router
                     if( movie == null ) return;
-                    context.push('/movie/${movie.id}');
+                    context.push('/home/0/movie/${movie.id}');
                   });
                   //print(movie?.title);
               }, 
               icon: const Icon(Icons.search))
             ],
           ),
-
         ),
       )
     );

@@ -16,7 +16,7 @@ final appRouter = GoRouter(
   //al realizado en la rama fin-seccion-16-A y asi poder mantener el estado
   routes: [
     GoRoute(
-      path: '/home/:page',//recibimos el la variable page cual es la ruta(view) que queremos recibir, home,categories,favorites
+      path: '/home/:page',//recibimos la variable page cual es la ruta(view) que queremos recibir, home,categories,favorites
       name: HomeScreen.name,
       builder: (context, state) {
 
@@ -27,6 +27,7 @@ final appRouter = GoRouter(
         //hacemos un casting de String a Int
         return HomeScreen( pageIndex: int.parse(pageIndex));
       },
+      //rutas hijas
       routes: [
         //hacemos la ruta hija de la ruta principal para que siempre pueda volver a la ruta principal el usaurio desde la ruta hija
         GoRoute(
@@ -41,6 +42,13 @@ final appRouter = GoRouter(
        ),
       ]
     ),
+
+    //en caso de que no coincida la ruta redirigimos al home
+    GoRoute(
+      path: '/',
+      //ponemos _ , __ para indicar que no usaremos los atributos que pide 
+      redirect:  ( _ , __ ) => '/home/0' 
+    )
     
   ]
 );

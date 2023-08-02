@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/movie.dart';
 
 
-//la clase hereda de ConsuemerStatefulWidget para tener in initState para poder saber
+//la clase hereda de ConsumerStatefulWidget para tener in initState para poder saber
 //cuando estoy cargando y obtener informacions de los providers
 class MovieScreen extends  ConsumerStatefulWidget{
 
@@ -89,6 +89,16 @@ class _CustomSliverAppBar extends StatelessWidget {
       //usamos el 70 % de la pantalla con la variable size hemos hallado arriba las medidas del dispositivo
       expandedHeight: size.height * 0.7, 
       foregroundColor: Colors.white,
+      actions: [
+        //colocamos el boton de favoritos para que al ser seleccionado se registre en la pantalla
+        //de favoritos
+        IconButton(onPressed: () {
+
+        },
+        icon: const Icon( Icons.favorite_border)
+       //icon: const Icon( Icons.favorite_rounded, color: Colors.red,)
+      ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         // title: Text(
@@ -109,42 +119,43 @@ class _CustomSliverAppBar extends StatelessWidget {
                 },
               ),
             ),
-
-            //creamos un gradiente
-            const  SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    //hacemos un gradiente vertical comienza en el centro de arriba y termina en el centro de abajo
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    //ponemos los stops qu empieze en el 70 por ciento y acabe en el 100 por cien
-                    stops: [0.7, 1.0],
-                    colors: [
-                      Colors.transparent,
-                      Colors.black87
-                    ]
-                  )
-                )),
+          
+           //creamos un gradiente usando la clase privada creada abajo _Customgradient
+           //este gradiente es para el corazon de favoritos
+           const _CustomGradient( 
+              //hacemos un gradiente vertical comienza arriba a la derecha y 
+              //termina abajo a la izquierda
+              begin: Alignment.topRight, 
+              end: Alignment.bottomLeft, 
+               //ponemos los stops que empieze en el 0 por ciento y acabe en el 20 por ciento
+              stops: [0.0, 0.2], 
+              colors: [  Colors.black54, Colors.transparent]
             ),
-           
-            //creamos otro gradiente para que se vea bien la flecha de la izquierda
-            //para ir hacia atras
-            const  SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    //hacemos un gradiente horizontal para empezar desde la izquierda
-                    begin: Alignment.topLeft,
-                    //ponemos los stops qu empieze en el 0 de la izquierda y finalize en el 30 porciento 
-                    stops: [0.0, 0.3],
-                    colors: [
-                      Colors.black87,
-                      Colors.transparent
-                    ]
-                  )
-                )),
-            )
+
+          //creamos otro gradiente usando la clase privada creada abajo _Customgradient
+          //este gradiente es para la imagen central
+           const _CustomGradient( 
+              //hacemos un gradiente vertical comienza arriba en el centro y 
+              //termina abajo en el centro
+              begin: Alignment.topCenter, 
+              end: Alignment.bottomCenter, 
+               //ponemos los stops que empieze en el 70 por ciento y acabe en el 100 por ciento
+              stops: [0.8, 1.0], 
+              colors: [ Colors.transparent, Colors.black54]
+            ),
+
+
+          //creamos otro gradiente para que se vea bien la flecha de la izquierda
+          //para ir hacia atras
+           const _CustomGradient( 
+              //hacemos un gradiente vertical comienza arriba en la izquierda
+              //no usamos el end lo ponemos opcional
+              begin: Alignment.topLeft, 
+               //ponemos los stops que empieze en el 0 por ciento y acabe en el 30 por ciento
+              stops: [0.0, 0.3], 
+              colors: [ Colors.black87, Colors.transparent]
+            ),
+
           ],
         ),
        ),
@@ -298,3 +309,41 @@ class _ActorsByMovie extends ConsumerWidget {
     );
   }
 }
+
+//clase privada que realiza gradientes usada en la clase _CustomSliverAppBar creada arriba
+class _CustomGradient extends StatelessWidget {
+
+  //propiedades 
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<double> stops;
+  final List<Color> colors;
+  
+
+  const _CustomGradient({
+    
+    this.begin = Alignment.centerLeft, //valor por defecto por si no viene en los arguementos
+    this.end = Alignment.centerRight, //valor por defecto por si no viene en los arguementos
+    required this.stops, 
+    required this.colors
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return SizedBox.expand(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              //hacemos un gradiente vertical comienza en el centro de arriba y termina en el centro de abajo
+              begin: begin,
+              end: end,
+              //ponemos los stops qu empieze en el 70 por ciento y acabe en el 100 por cien
+              stops: stops,
+              colors: colors
+            )
+          )),
+      );
+  }
+}
+

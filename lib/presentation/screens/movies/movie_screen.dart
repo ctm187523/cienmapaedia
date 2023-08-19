@@ -1,11 +1,10 @@
 
 //mostramos una pelicula en particular
-import 'package:animate_do/animate_do.dart';
-import 'package:cinemapedia/presentation/providers/actors/actors_by_movie_provider.dart';
-import 'package:cinemapedia/presentation/providers/movies/movie_info_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/presentation/providers/providers.dart';
 import '../../../domain/entities/movie.dart';
 
 
@@ -68,8 +67,23 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
   }
 }
 
+//creamos un provider con una variable para manejar un booleano para que 
+//el corazon de favoritos se muestre en rojo o no, usamos el provider FutureProvider
+//usamos un FutureProvider que sirve si tenemos una tarea asincrona
+//usamos .family para poder usar parametros en este caso en int movieId
+//emite un booleano y como argumento pide un entero
+//ponemos autoDispose para que refresque la informacion
+final isFavoriteProvider = FutureProvider.family.autoDispose((ref, int movieId){
+
+  //usamos el repository localStorageRepositoryProvider creado en presentation/providers/stroage
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+
+  //devolvemos el estado de la pelicula si esta o no en favoritos
+  return localStorageRepository.isMovieFavorite(movieId);
+});
+
 //creamos una clase para manejar los slivers del CustomScrollView creado arriba
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
 
   final Movie movie;
   
@@ -80,7 +94,13 @@ class _CustomSliverAppBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    //tomamos la instancia del Provider creado arriba isFavoriteProvider para manejar
+    //el icono del corazon de favoritos para mostrarlo en rojo o no dependiendo si la 
+    //pelicula seleccionada esta o no en favoritos, mandamos un entero del id de la pelicula
+    //como argumento y recibimos un valor booleano
+    final isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
 
     //obtenemos las dimensiones del dispositivo
     final size = MediaQuery.of( context).size;
@@ -94,9 +114,23 @@ class _CustomSliverAppBar extends StatelessWidget {
         //de favoritos
         IconButton(onPressed: () {
 
+          //usamos el Provider localStorageRepositoryProvider y su meto toggleFavorite
+          //para que al pulsar el corazon de favoritos añada y elimine la pelicula de favoritos
+          ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+
+          //volvemos a hacer la peticion para actualizar el estado del booleano y poner el corazon o no en rojo
+          //con invalidate, invalida el estado del provider y lo regresa a su estado original
+          ref.invalidate(isFavoriteProvider(movie.id));
         },
-        icon: const Icon( Icons.favorite_border)
-       //icon: const Icon( Icons.favorite_rounded, color: Colors.red,)
+        icon: isFavoriteFuture.when( //usamos la variable isFavoriteFuture creada arriba
+          //la data es el valor booleano recibido(isFavorite es el nombre que le damos al argumento
+          //podemos usar otro), si es true mostramos el corazon rojo en caso contrario sin color)
+          data: (isFavorite) => isFavorite
+           ? const Icon( Icons.favorite_rounded, color: Colors.red,) 
+           : const Icon( Icons.favorite_border)
+          , 
+          error: ( _, __) => throw UnimplementedError(), //mostramos los erres si el caso
+          loading: () => const CircularProgressIndicator(strokeWidth: 2,))
       ),
       ],
       flexibleSpace: FlexibleSpaceBar(

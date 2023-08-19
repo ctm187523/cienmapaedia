@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 
 class ActorMovieDbDatasource extends ActorsDataSource {
 
-  //creamos una instancai de Dio para la peticion http como hicimos en moviedb_datasource.dart
+  //creamos una instancia de Dio para la peticion http como hicimos en moviedb_datasource.dart
   final dio = Dio(
 
     BaseOptions(

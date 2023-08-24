@@ -22,7 +22,7 @@ class CustomButtomNavigation extends StatelessWidget {
         context.go('/home/0'); //mandamos al home, ver en home_screen.dart la configuracion de las rutas
         break;
       case 1:
-        context.go('/home/1'); 
+        context.go('/home/1'); //mandamos a categorias
         break;
       case 2:
         context.go('/home/2'); //mandamos a favoritos
@@ -41,11 +41,12 @@ class CustomButtomNavigation extends StatelessWidget {
           onItemTapped(context, value);
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_max), label: 'Inicio'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.label_outline), label: 'Categorías'),
+              icon: Icon(Icons.home_max), label: 'Inicio'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_outlined), label: 'Favoritos'),
+              icon: Icon(Icons.thumbs_up_down_outlined), label: 'Categorías'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_outline), label: 'Favoritos'),
         ]);
   }
 }

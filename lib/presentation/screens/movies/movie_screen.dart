@@ -112,11 +112,14 @@ class _CustomSliverAppBar extends ConsumerWidget {
       actions: [
         //colocamos el boton de favoritos para que al ser seleccionado se registre en la pantalla
         //de favoritos
-        IconButton(onPressed: () {
+        IconButton(onPressed: () async{
 
           //usamos el Provider localStorageRepositoryProvider y su meto toggleFavorite
           //para que al pulsar el corazon de favoritos añada y elimine la pelicula de favoritos
-          ref.watch(localStorageRepositoryProvider).toggleFavorite(movie);
+          //ref.read(localStorageRepositoryProvider).toggleFavorite(movie);
+          //COMENTAMOS LO DE ARRIBA PORQUE EN SU LUGAR USAMOS LA SIGUIENTE INSTRUCCION
+          //USAMOS EL PROVIDER favoriteMovieProvider
+          await ref.read( favoriteMovieProvider.notifier).toogleFavorite(movie);
 
           //volvemos a hacer la peticion para actualizar el estado del booleano y poner el corazon o no en rojo
           //con invalidate, invalida el estado del provider y lo regresa a su estado original

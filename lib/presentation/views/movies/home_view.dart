@@ -43,7 +43,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
 
-    //llamamos al provider initialLoadingProvaider que devuelve un booleano
+    //llamamos al provider initialLoadingProvider que devuelve un booleano
     //para saber si esta cargada la data y si no esta mostrar un loading
     final intialloading = ref.watch(intialLoadingProvider);
 
@@ -211,17 +211,18 @@ class HomeViewState extends ConsumerState<HomeView> {
                   ),
                   //creamos otro scroll horizontal usando la clase creada MovieHorizontalListView
                   //en presentation/widgets/movies, para obtener las peliculas mas populares
-                  MovieHorizontalListView(
-                    movies: popularMovies,
-                    title: 'Populares',
-                    //subTitle: 'Lunes 20' ,
-                    loadNextPage: () { 
-                      //Usamos el read, lo usamos si estamos entro de un callback o funciones
-                      //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
-                      //nuevas peliculas de otra pagina
-                      ref.read(popularMoviesProvider.notifier).loadNextPage();
-                    },
-                  ),
+                  //YA NO ESTA AQUÍ, ahora es parte del menú inferior la seccion de Categorias
+                  // MovieHorizontalListView(
+                  //   movies: popularMovies,
+                  //   title: 'Populares',
+                  //   //subTitle: 'Lunes 20' ,
+                  //   loadNextPage: () { 
+                  //     //Usamos el read, lo usamos si estamos entro de un callback o funciones
+                  //     //llamamos al metodo loadNextPage del provider nowPlayingMoviesProvider para cargar
+                  //     //nuevas peliculas de otra pagina
+                  //     ref.read(popularMoviesProvider.notifier).loadNextPage();
+                  //   },
+                  // ),
                   //creamos otro scroll horizantal horizontal usando la clase creada MovieHorizontalListView
                   //en presentation/widgets/movies
                   MovieHorizontalListView(

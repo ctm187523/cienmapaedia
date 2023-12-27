@@ -18,3 +18,15 @@ Para cambiar nombre aplicación:
  uso:
  flutter pub run change_app_package_name:main com.newpackage.nameaplication
 ```
+
+Para cambiar el icono de la aplicacion
+´´´
+flutter pub run flutter_launcher_icons
+
+´´´
+
+Para cambiar el splash
+´´´
+   usar este con la version -> flutter_native_splash: ^2.2.19 
+  flutter pub run flutter_native_splash:create
+´´´

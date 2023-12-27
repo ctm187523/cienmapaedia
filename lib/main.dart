@@ -8,11 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:cinemapedia/config/router/app_router.dart';
 import 'package:cinemapedia/config/theme/app_theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //para usar las variables de entorno ponemos el siguiente codigo en el main -> Future<void> y el async
 Future<void> main() async{
 
+  //linea de codigo para manejar el splash screen creado en la ultima seccion para produccion seccion 31
+  //es opcional esta linea de codigo
+  //esta primera linea muestra el splash screen en la linea 55 del archivo home_view cuando esta inicializada la aplicacion removemos el spash screen
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  
   //inicializamos el paquete dotenv importado arriba para que lea las variables de entorno de manera global
   await dotenv.load(fileName: '.env');
   

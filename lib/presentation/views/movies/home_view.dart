@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cinemapedia/presentation/providers/providers.dart';
@@ -50,6 +51,9 @@ class HomeViewState extends ConsumerState<HomeView> {
     //si no esta cargada la data usamos el widget creado en presentation/widgets/shared
     //para mostrar el loading
     if(intialloading) return const FullScreenLoader();
+
+    //esta linea de codigo es para remover el Spash Screen cuando la aplicacion ya este cargada ver en el main linea 17
+    FlutterNativeSplash.remove();
 
     //en caso contrario mostramos las peliculas
 

@@ -24,6 +24,8 @@ class MoviePosterLink extends StatelessWidget {
         onTap: () => context.push('/home/0/movie/${ movie.id }') ,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
+          //EN EL CODIGO MEJORADO DE FERNANDO HERRERA VER ESTA MISMA CLASE LO HACE DISTINTO Y MIENTRAS LAS IMAGENES NO CARGAN
+          //MUESTRA UNAS BOTELLASS
           child: Image.network(movie.posterPath),
         ),
       ),

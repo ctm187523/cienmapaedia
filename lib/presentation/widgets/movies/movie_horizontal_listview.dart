@@ -170,7 +170,8 @@ class _Slide extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start, //alineamos los hijos al inicio
         children: [
 
-          //mostramos las imagenes
+          //mostramos las imagenes, ver en el codigo de FERNANDO HERRERA MEJORADO en esta misma clase
+          //como mientras las imagenes no estan cargadas muestra una botellas
           SizedBox(
             width: 150,
             //usamos un ClipRRect para usarlo como un BorderRadius

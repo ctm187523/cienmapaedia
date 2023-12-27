@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cinemapedia">
+    package="com.ctm.cinemapedia1875">
    <application
         android:label="cinemapedia"
         android:name="${applicationName}"

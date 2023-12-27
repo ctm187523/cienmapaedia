@@ -32,10 +32,12 @@ class CustomButtomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final colors = Theme.of(context).colorScheme;
     return BottomNavigationBar(
         elevation: 0, //quitamos la linea superior
         currentIndex: currentIndex, //recibimos el currentIndex de los argumentos recibidos en el constructor
-        
+        selectedItemColor: colors.primary, //colorea el item seleccionado
         //metodo que recibe que opcion del custom_bottom_navigation ha sido seleccionada
         onTap: (value) {
           onItemTapped(context, value);

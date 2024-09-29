@@ -14,7 +14,8 @@ class ActorMapper {
       //imagen condicion en caso de que no venga
       profilePath: cast.profilePath != null 
        ? 'https://image.tmdb.org/t/p/w500${ cast.profilePath }'
-       : 'https://1fid.com/wp-content/uploads/2022/06/no-profile-picture-6-1024x1024.jpg', 
+       //: 'https://1fid.com/wp-content/uploads/2022/06/no-profile-picture-6-1024x1024.jpg', 
+       : 'https://img.freepik.com/vector-gratis/diseno-plano-letrero-foto_23-2149299706.jpg?ga=GA1.1.96884744.1727638030&semt=ais_hybrid',
       character: cast.character
     );
 }

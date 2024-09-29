@@ -1,5 +1,5 @@
 
-//creamos una clase abstracta proque no queremos que hayan instancias de esta clase
+//creamos una clase abstracta porque no queremos que hayan instancias de esta clase
 //aqui definimos como tienen que ser los origenes de datos de donde vamos a obtener las peliculas
 //independientemente del origen de datos que utilizemos
 import 'package:cinemapedia/domain/entities/movie.dart';

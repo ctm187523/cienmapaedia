@@ -30,3 +30,9 @@ Para cambiar el splash
    usar este con la version -> flutter_native_splash: ^2.2.19 
   flutter pub run flutter_native_splash:create
 ´´´
+
+
+Android AAB
+```
+  flutter build appbundle
+```
